@@ -2,80 +2,113 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Where in the world?</title>
-   <!-- Bootstrap 5 CSS -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Where in the world?</title>
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-  <!-- Nunito Sans – exact font from the design -->
+  <!-- FONT AWESOME-->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js" crossorigin="anonymous"></script>
+  
+  <!-- Nunito Sans font -->
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap" rel="stylesheet">
 
-
-  <!-- Custom styles -->
+  <!--CSS -->
   <link rel="stylesheet" href="style.css" />
-    
 </head>
 
-<body class="bg-light text-dark" data-theme="light">
-    <header class="shadow-sm bg-white py-3 mb-5">
-        <div class="container d-flex justify-content-between align-items-center">
-            <h1 class="h4 fw-bold mb-0">Where in the world?</h1>
-            <button id="theme-toggle" class="btn btn-sm border-0 d-flex align-items-center gap-2 fw-semibold">
-            <span class="theme-icon">Dark Mode</span>
-            </button>
-        </div>
-    </header>
+<body class="bg-light text-dark">
+ 
+   <!-- NAVIGATION -->
 
-    <!-- Main Content -->
-    <main class="container">
+   <nav class = "navbar shadow-sm bg-white">
+    <div class = "container-fluid px-4 px-lg-5 py-3">
+      <h1 class = "h4 fw-bold mb-0">Where in the world?</h1>
+      <div class ="theme-toggle-area d-flex align-items-center gap-2 cursor-pointer">
+        <i class ="fa-solid fa-moon" id ="toggle-icon"></i>
+        <span class ="fw-semibold mode-text">Dark Mode</span>
+      </div>
+    </div>
+   </nav>
+   <!-- FILTER SEARCH GRID -->
+  <div class="container-fluid px-4 px-lg-5 py-5" id ="home-page">
+    <div class ="row g-4 mb-5 align-items-center">
 
-        <section class=" row g-4 mb-5">
-            <div class="col-12 d-flex flex-column flex-md-row justify-content-between gap-4">
-                <div class="input-group shadow-sm" style="max-width: 480px;">
-                    <span class="input-group-text bg-transparent border-0">
-                        <i class="bi bi-search"></i>
-                    </span>
-                    <input type="text" id="search-input" class="form-control border-0 shadow-none"
-                        placeholder="Search for a country..." />
-                </div>
-             <select id ="region-filter" class ="form-seclect shadow-sm w-auto" style="max-width: 200px;"> 
-
-                <option value="">Filter by Region</option>
-                <option value="Africa">Africa</option>
-                <option value="Americas">Americas</option>
-                <option value="Asia">Asia</option>
-                <option value="Europe">Europe</option>
-                <option value="Oceania">Oceania</option>
-
-        </select>
-
-        <!-- Grid ( Countries ) -->
-         <section id ="countries-grid" class =" row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4 g-lg-5">
-
-         </section>
+      <!-- SEARCH BOX -->
+       <div class ="col-lg-5">
+        <div class="position-relative">
+          <i class ="fa-solid fa-magnifying-glass position-absolute top-50 start-4 translate-middle-y text-muted"></i>
+          <input type ="text" id ="search" class ="form-control ps-5 py-3 rounded shadow-sm" placeholder="Search for a country...">
 
         </div>
-        </section>
-    </main>
 
-    <!-- Modal -->
-    <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-      <div class="modal-content shadow-lg">
-        <div class="modal-body p-4 p-md-5">
-          <button id="back-btn" class="btn btn-light mb-4 d-inline-flex align-items-center gap-2 shadow-sm">
-            <i class="bi bi-arrow-left"></i> Back
-          </button>
-          <div id="modal-body" class="row g-5"></div>
+       </div>
+    <!-- REGION FILTER -->
+     <div class ="col-lg-3 offset-lg-4">
+      <div class ="dropdown">
+        <button class = "btn btn-white dropdown-toggle w-100 text-start py-3 shadow-sm" type="button" data-bs-toggle="dropdown">Filter by Region</button>
+        <ul class ="dropdown-menu shadow w-100">
+          <li><a class="dropdown-item list-item" href="#" data-region="">All</a></li>
+            <li><a class="dropdown-item list-item" href="#" data-region="Africa">Africa</a></li>
+            <li><a class="dropdown-item list-item" href="#" data-region="Americas">Americas</a></li>
+            <li><a class="dropdown-item list-item" href="#" data-region="Asia">Asia</a></li>
+            <li><a class="dropdown-item list-item" href="#" data-region="Europe">Europe</a></li>
+            <li><a class="dropdown-item list-item" href="#" data-region="Oceania">Oceania</a></li>
+        </ul>
+
+      </div>
+
+     </div>
+    </div>
+     <!-- COUNTRIES GRID -->
+      
+     <div class ="row g-4" id ="countries-grid"></div>
+
+     <!-- PAGE DETAILS -->
+      <div class="container-fluid px-4 px-lg-5 py-5 d-none" id="detail-page">
+
+        <!-- BACK BUTTON -->
+    <button class="btn btn-white shadow-sm px-4 py-2 mb-5 back-btn">
+      <i class="fa-solid fa-arrow-left me-2"></i> Back
+    </button>
+
+    <div class="row g-5 align-items-center">
+
+      <!-- FLAG -->
+
+      <div class="col-lg-6">
+        <img src ="" alt ="" class="img-fluid rounded shadow flag-detail-img">
+      </div>
+
+      <!-- COUNTRY INFO -->
+
+      <div class="col-lg-6">
+        <h2 class="fw-bold mb-4 detail-name"></h2>
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>Native Name:</strong> <span class="detail-native"></span></p>
+            <p><strong>Population:</strong> <span class="detail-population"></span></p>
+            <p><strong>Region:</strong> <span class="detail-region"></span></p>
+            <p><strong>Sub Region:</strong> <span class="detail-subregion"></span></p>
+            <p><strong>Capital:</strong> <span class="detail-capital"></span></p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Top Level Domain:</strong> <span class="detail-topLevelDomain"></span></p>
+            <p><strong>Currencies:</strong> <span class="detail-currencies"></span></p>
+            <p><strong>Languages:</strong> <span class="detail-languages"></span></p>
+          </div>
+        </div>
+        <div class="mt-4">
+          <strong>Border Countries:</strong>
+          <div class="d-inline-block mt-2" id="border-countries"></div>
         </div>
       </div>
     </div>
-  </div>
+
   <!-- Scripts -->
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
 </body>
 
 </html>

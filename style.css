@@ -1,74 +1,132 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 body {
     font-family: "Nunito Sans", sans-serif;
     min-height: 100vh;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s color 0.3s;
+    margin: 0;
+}
+/* DARK MODE  */
+body.dark {
+  background-color: hsl(207, 26%, 17%) !important;
 }
 
-/* Card styling */
+body.dark .bg-light {
+  background-color: hsl(207, 26%, 17%) !important;
+}
+
+body.dark .bg-white,
+body.dark .navbar,
+body.dark .card,
+body.dark .btn-white,
+body.dark .form-control,
+body.dark .dropdown-menu,
+body.dark .dropdown-item:hover {
+  background-color: hsl(209, 23%, 22%) !important;
+  color: white !important;
+}
+
+body.dark .text-dark {
+  color: hsl(0, 0%, 100%) !important;
+}
+
+body.dark .form-control,
+body.dark .form-control::placeholder,
+body.dark .dropdown-item {
+  color: white !important;
+}
+/* COUNTRY CARD STYLING */
 .country-card{
 
-    transition: transform 0.2s;
+    transition: transform 0.2s ease, box-shadow 0.25s ease;
     border: none !important;
     border-radius: 0.5rem;
     overflow: hidden;
     box-shadow: 0 0 0.75rem rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 .country-card:hover{
-    transform: translateY(-8px);
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 .country-card img{
-    height: 160px; object-fit: cover;
+    height: 160px;
     object-fit: cover;
+    width: 100%;
 }
-.shadow-sm { box-shadow: 0 0 8px 0 rgba(0,0,0,0.1) !important; }
-/* Border buttons */
-.border-btn {
-  background: var(--bs-body-bg) !important;
-  border: none !important;
-  padding: 0.3rem 0.8rem !important;
-  border-radius: 0.25rem;
-  font-size: 0.875rem;
-  box-shadow: 0 0 4px rgba(0,0,0,0.2);
+.country-card .card-body {
+  padding: 1.5rem;
 }
 
-/* Search */
-.input-group{max-width: 480;}
-.form-control, .form-select{
-    border:none;
+.country-card h5 {
+  font-weight: 800;
+  font-size: 1.15rem;
+  margin-bottom: 1rem;
+}
+/* .shadow-sm { box-shadow: 0 0 8px 0 rgba(0,0,0,0.1) !important; } */
+
+/* SEARCH AND FILTER */
+
+.form-control, .dropdown-toggle{
+    border:none !important;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1) !important;
     font-weight: 600;
     font-size: 0.95rem;
 }
-.form-select{ width: auto; max-width: 200px;}
-/* Modal */
+.dropdown-toggle {
+  background-color: white !important;
+  width: 200px;
+  text-align: left;
+}
+/* DARK MODE */
+body.dark .form-control,
+body.dark .dropdown-toggle {
+  background-color: hsl(209, 23%, 22%) !important;
+  color: white !important;
+}
+/* BORDER COUNTRY BUTTONS */
+
 .border-btn {
   background-color: var(--bs-body-bg) !important;
   border: none !important;
-  box-shadow: 0 0 6px rgba(0,0,0,0.15);
-  padding: 0.35rem 0.9rem !important;
+  padding: 0.4rem 1rem !important;
+  border-radius: 0.35rem;
   font-size: 0.875rem;
-  margin: 0.25rem;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+  margin: 0.4rem 0.4rem 0.4rem 0;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-/* Dark Mode */
-[data-theme="dark"] {
-  background-color: hsl(207, 26%, 17%) !important;
+.border-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-[data-theme="dark"] .bg-light { background-color: hsl(207, 26%, 17%) !important; }
-[data-theme="dark"] .bg-white { background-color: hsl(209, 23%, 22%) !important; }
-[data-theme="dark"] .text-dark { color: hsl(0, 0%, 100%) !important; }
-[data-theme="dark"] .form-control,
-[data-theme="dark"] .form-select,
-[data-theme="dark"] .btn-light {
+/* BACK BUTTON */
+.btn-white,
+.back-btn {
+  background-color: white !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+body.dark .btn-white,
+body.dark .back-btn {
   background-color: hsl(209, 23%, 22%) !important;
-  color: white !important;
-  border-color: transparent !important;
 }
 
-/* Light Theme */
-.bg-light { background-color: hsl(0, 0%, 98%) !important; }
-.bg-white { background-color: hsl(0, 0%, 100%) !important; }
-.text-dark { color: hsl(200, 15%, 8%) !important; }
-.form-control::placeholder, .form-select { color: hsl(0, 0%, 52%) !important; }
+/* CURSOR */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.dropdown-toggle::after {
+  float: right;
+  margin-top: 0.6rem;
+}
