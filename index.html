@@ -44,67 +44,61 @@
         </div>
 
        </div>
-    <!-- REGION FILTER -->
-     <div class ="col-lg-3 offset-lg-4">
-      <div class ="dropdown">
-        <button class = "btn btn-white dropdown-toggle w-100 text-start py-3 shadow-sm" type="button" data-bs-toggle="dropdown">Filter by Region</button>
-        <ul class ="dropdown-menu shadow w-100">
-          <li><a class="dropdown-item list-item" href="#" data-region="">All</a></li>
-            <li><a class="dropdown-item list-item" href="#" data-region="Africa">Africa</a></li>
-            <li><a class="dropdown-item list-item" href="#" data-region="Americas">Americas</a></li>
-            <li><a class="dropdown-item list-item" href="#" data-region="Asia">Asia</a></li>
-            <li><a class="dropdown-item list-item" href="#" data-region="Europe">Europe</a></li>
-            <li><a class="dropdown-item list-item" href="#" data-region="Oceania">Oceania</a></li>
-        </ul>
-
+    <!-- REGION FILTER  changing from dropdown back to select-->
+    <div class="col-lg-3 offset-lg-4">
+        <select id="region-filter" class="form-select py-3 shadow-sm">
+          <option value="">Filter by Region</option>
+          <option value="Africa">Africa</option>
+          <option value="Americas">Americas</option>
+          <option value="Asia">Asia</option>
+          <option value="Europe">Europe</option>
+          <option value="Oceania">Oceania</option>
+        </select>
       </div>
-
-     </div>
     </div>
      <!-- COUNTRIES GRID -->
       
-     <div class ="row g-4" id ="countries-grid"></div>
-
+     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="countries-grid"></div>
+  
+  </div>
      <!-- PAGE DETAILS -->
       <div class="container-fluid px-4 px-lg-5 py-5 d-none" id="detail-page">
-
-        <!-- BACK BUTTON -->
     <button class="btn btn-white shadow-sm px-4 py-2 mb-5 back-btn">
       <i class="fa-solid fa-arrow-left me-2"></i> Back
     </button>
 
     <div class="row g-5 align-items-center">
-
       <!-- FLAG -->
-
       <div class="col-lg-6">
-        <img src ="" alt ="" class="img-fluid rounded shadow flag-detail-img">
+        <img id="detail-flag" class="img-fluid rounded shadow" alt="Country flag">
       </div>
 
       <!-- COUNTRY INFO -->
-
       <div class="col-lg-6">
-        <h2 class="fw-bold mb-4 detail-name"></h2>
+        <h2 id="detail-name" class="fw-bold mb-4"></h2>
+
         <div class="row">
           <div class="col-md-6">
-            <p><strong>Native Name:</strong> <span class="detail-native"></span></p>
-            <p><strong>Population:</strong> <span class="detail-population"></span></p>
-            <p><strong>Region:</strong> <span class="detail-region"></span></p>
-            <p><strong>Sub Region:</strong> <span class="detail-subregion"></span></p>
-            <p><strong>Capital:</strong> <span class="detail-capital"></span></p>
+            <p><strong>Native Name:</strong> <span id="native-name"></span></p>
+            <p><strong>Population:</strong> <span id="population"></span></p>
+            <p><strong>Region:</strong> <span id="region"></span></p>
+            <p><strong>Sub Region:</strong> <span id="subregion"></span></p>
+            <p><strong>Capital:</strong> <span id="capital"></span></p>
           </div>
           <div class="col-md-6">
-            <p><strong>Top Level Domain:</strong> <span class="detail-topLevelDomain"></span></p>
-            <p><strong>Currencies:</strong> <span class="detail-currencies"></span></p>
-            <p><strong>Languages:</strong> <span class="detail-languages"></span></p>
+            <p><strong>Top Level Domain:</strong> <span id="tld"></span></p>
+            <p><strong>Currencies:</strong> <span id="currencies"></span></p>
+            <p><strong>Languages:</strong> <span id="languages"></span></p>
           </div>
         </div>
+
         <div class="mt-4">
           <strong>Border Countries:</strong>
-          <div class="d-inline-block mt-2" id="border-countries"></div>
+          <div id="borders" class="d-inline-block mt-2"></div>
         </div>
       </div>
     </div>
+  </div>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
