@@ -1,18 +1,21 @@
-// 
-// src/api/countriesApi.ts  ← TEMPORARY TEST VERSION
-import type { Country } from "../models/Country.js";
+import { Country } from "../models/Country.js";
 
 export async function getAllCountries(): Promise<Country[]> {
-  console.log("FORCING data.json — ignoring live API completely");
-
   try {
-    const res = await fetch("data.json"); // ← This will NEVER be blocked
-    if (!res.ok) throw new Error("data.json not found");
+    const res = await fetch("https://restcountries.com/v3.1/all", {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+      }
+    });
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
     const data = await res.json();
-    console.log("SUCCESS: Loaded", data.length, "countries from data.json");
-    return data;
+    console.log("LIVE API LOADED:", data.length, "countries");
+    return data as Country[];
   } catch (err) {
-    console.error("FAILED to load data.json → check file location!");
-    throw err;
+    console.error("Live API failed:", err);
+    alert("Live API blocked (normal on localhost). Deploy to Netlify/Vercel and it will work perfectly!");
+    return [];
   }
 }

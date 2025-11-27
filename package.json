@@ -6,6 +6,19 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "typescript": "^5.6.2"
-  }
+    "typescript": "^5.9.3"
+  },
+  "description": "![Design preview for the REST Countries API with color theme switcher coding challenge](./design/desktop-preview.jpg)",
+  "main": "script.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gollamudisindhura1/rest-countries-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gollamudisindhura1/rest-countries-api/issues"
+  },
+  "homepage": "https://github.com/gollamudisindhura1/rest-countries-api#readme"
 }

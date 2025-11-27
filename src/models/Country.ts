@@ -1,4 +1,4 @@
-// Define the shape of country data from the API
+// Define the country data from the API
 export interface Country {
   name: {
     common?: string;
