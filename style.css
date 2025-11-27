@@ -14,19 +14,23 @@ body {
 /* DARK MODE  */
 body.dark {
   background-color: hsl(207, 26%, 17%) !important;
+  color: hsl(0, 0%, 100%) !important;
 }
 
 body.dark .bg-light {
   background-color: hsl(207, 26%, 17%) !important;
 }
 
-body.dark .bg-white,
+/* body.dark .bg-white, */
 body.dark .navbar,
 body.dark .card,
-body.dark .btn-white,
+/* body.dark .btn-white, */
 body.dark .form-control,
-body.dark .dropdown-menu,
-body.dark .dropdown-item:hover {
+body.dark .form-select,
+/* body.dark .dropdown-menu,
+body.dark .dropdown-item:hover { */
+body.dark .btn,
+body.dark .back-btn {
   background-color: hsl(209, 23%, 22%) !important;
   color: white !important;
 }
@@ -35,10 +39,9 @@ body.dark .text-dark {
   color: hsl(0, 0%, 100%) !important;
 }
 
-body.dark .form-control,
 body.dark .form-control::placeholder,
-body.dark .dropdown-item {
-  color: white !important;
+body.dark .form-select{
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 /* COUNTRY CARD STYLING */
 .country-card{
@@ -49,6 +52,10 @@ body.dark .dropdown-item {
     overflow: hidden;
     box-shadow: 0 0 0.75rem rgba(0, 0, 0, 0.1);
     cursor: pointer;
+    background-color: white;
+}
+body.dark .country-card {
+  background-color: hsl(209, 23%, 22%);
 }
 .country-card:hover{
     transform: translateY(-10px);
@@ -72,26 +79,27 @@ body.dark .dropdown-item {
 
 /* SEARCH AND FILTER */
 
-.form-control, .dropdown-toggle{
+.form-control, .form-select {
     border:none !important;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1) !important;
     font-weight: 600;
     font-size: 0.95rem;
+    background-color: white;
 }
-.dropdown-toggle {
+/* .dropdown-toggle {
   background-color: white !important;
   width: 200px;
   text-align: left;
-}
+} */
 /* DARK MODE */
 body.dark .form-control,
-body.dark .dropdown-toggle {
+body.dark .form-select {
   background-color: hsl(209, 23%, 22%) !important;
   color: white !important;
 }
 /* BORDER COUNTRY BUTTONS */
 
-.border-btn {
+.border-btn , .back-btn{
   background-color: var(--bs-body-bg) !important;
   border: none !important;
   padding: 0.4rem 1rem !important;
@@ -103,30 +111,27 @@ body.dark .dropdown-toggle {
   cursor: pointer;
   transition: all 0.2s;
 }
+body.dark .back-btn,
+body.dark .border-btn {
+  background-color: hsl(209, 23%, 22%) !important;
+  color: white !important;
+}
 
-.border-btn:hover {
+.border-btn:hover, .back-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* BACK BUTTON */
-.btn-white,
-.back-btn {
-  background-color: white !important;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-body.dark .btn-white,
-body.dark .back-btn {
-  background-color: hsl(209, 23%, 22%) !important;
-}
 
 /* CURSOR */
 .cursor-pointer {
   cursor: pointer;
 }
 
-.dropdown-toggle::after {
-  float: right;
-  margin-top: 0.6rem;
+.form-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23999' viewBox='0 0 16 16'%3e%3cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3e%3c/svg%3e");
+}
+
+body.dark .form-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 16 16'%3e%3cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3e%3c/svg%3e");
 }
