@@ -22,6 +22,8 @@ const $ = {
     borders: document.getElementById("borders"),
 };
 let allCountries = [];
+// Added filtered countries variable to handle combined search + filter
+let filteredCountries = [];
 // THEME
 if ($.themeToggle) {
     $.themeToggle.addEventListener("click", () => {
@@ -66,7 +68,11 @@ function render(countries) {
 }
 // SHOW DETAIL
 function showDetail(country) {
-    $.detailFlag.src = country.flags.svg;
+    $.borders.innerHTML = "";
+    $.detailFlag.src =
+        country.flags.svg ||
+            country.flags.png ||
+            "https://flagcdn.com/w320/xx.png";
     $.detailName.textContent = country.name.common;
     const nativeObj = country.name.nativeName;
     const nativeEntry = nativeObj ? Object.values(nativeObj)[0] : null;
@@ -108,27 +114,67 @@ $.backBtn.onclick = () => {
     $.detail.classList.add("d-none");
     $.home.classList.remove("d-none");
 };
-// SEARCH
 $.search.oninput = () => {
-    const term = $.search.value.toLowerCase().trim();
-    const filtered = allCountries.filter(c => {
-        const common = c.name?.common?.toLowerCase() || "";
-        const natives = c.name.nativeName
-            ? Object.values(c.name.nativeName)
-                .map((n) => n.common?.toLowerCase() || "")
-            : [];
-        return common.includes(term) || natives.some(n => n.includes(term));
-    });
-    render(filtered);
+    applyFilters();
 };
-// REGION FILTER
+$.search.oninput = () => {
+    applyFilters();
+};
+// Replace REGION FILTER to work with search
 $.regionFilter.onchange = () => {
-    const region = $.regionFilter.value;
-    const filtered = region ? allCountries.filter(c => c.region === region) : allCountries;
-    render(filtered);
+    applyFilters();
 };
+// SEARCH
+// $.search.oninput = () => {
+//   const term = $.search.value.toLowerCase().trim();
+//   const filtered = allCountries.filter(c => {
+//     const common = c.name?.common?.toLowerCase() || "";
+//     const natives = c.name.nativeName
+//       ? Object.values(c.name.nativeName)
+//           .map((n: any) => n.common?.toLowerCase() || "")
+//       : [];
+//     return common.includes(term) || natives.some(n => n.includes(term));
+//   });
+//   render(filtered);
+// };
+// // REGION FILTER
+// $.regionFilter.onchange = () => {
+//   const region = $.regionFilter.value;
+//   const filtered = region ? allCountries.filter(c => c.region === region) : allCountries;
+//   render(filtered);
+// };
+function applyFilters() {
+    const searchTerm = $.search.value.toLowerCase().trim();
+    const selectedRegion = $.regionFilter.value;
+    let results = allCountries;
+    // Apply region filter first
+    if (selectedRegion) {
+        results = results.filter(c => c.region === selectedRegion);
+    }
+    // Then apply search filter
+    if (searchTerm) {
+        results = results.filter(c => {
+            const common = c.name?.common?.toLowerCase() || "";
+            const natives = c.name.nativeName
+                ? Object.values(c.name.nativeName)
+                    .map((n) => n.common?.toLowerCase() || "")
+                : [];
+            return common.includes(searchTerm) || natives.some(n => n.includes(searchTerm));
+        });
+    }
+    render(results);
+}
 // START
 async function init() {
+    // Show loading spinner
+    $.grid.innerHTML = `
+    <div class="col-12 text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-3">Loading countries...</p>
+    </div>
+  `;
     try {
         allCountries = await getAllCountries();
         if (allCountries.length === 0) {

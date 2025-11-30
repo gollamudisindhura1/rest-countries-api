@@ -1,36 +1,38 @@
 import type { Country } from "../models/Country.js";
 
 export async function getAllCountries(): Promise<Country[]> {
-try {
-// Try optimized API (fast + small)
-const res = await fetch(
-"[https://restcountries.com/v3.1/all?fields=name,flags,population,region,capital,subregion,tld,currencies,languages,borders,cca3](https://restcountries.com/v3.1/all?fields=name,flags,population,region,capital,subregion,tld,currencies,languages,borders,cca3)"
+// API (fast + small)
+const apiURL = "https://api.allorigins.win/raw?url=" + encodeURIComponent(
+  "https://restcountries.com/v3.1/all?fields=name,flags,population,region,capital,subregion,tld,currencies,languages,borders,cca3"
 );
+ try {
+    // Fetch the URL directly
+    const res = await fetch(apiURL, { mode: "cors" });
 
-if (!res.ok) throw new Error("API failed");
+    if (!res.ok) {
+      console.error("API status:", res.status, res.statusText);
+      throw new Error("API failed");
+    }
 
-const data = await res.json();
-return normalize(data);
+    const data = await res.json();
+    return normalize(data);
+  } catch (error) {
+     console.warn("Live API blocked → using fallback /data.json");
 
-} catch (error) {
-console.warn("Live API blocked → using fallback");
+    // Fallback 
+    const res = await fetch("/data.json");
+    const full = await res.json();
 
-
-// Fallback to full dataset
-const res = await fetch("./data.json");
-const full = await res.json();
-
-return normalize(full);
-
-
-}
+    return normalize(full);
+  }
 }
 
 
 function normalize(raw: any[]): Country[] {
 return raw.map(c => ({
 name: {
-common: typeof c.name === "string" ? c.name : c.name?.common ?? "Unknown",
+  common: c.name?.common || c.name || "Unknown",
+
 official: typeof c.name === "string" ? c.name : c.name?.official ?? "",
 nativeName: c.name?.nativeName ?? {}
 },
