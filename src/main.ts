@@ -58,9 +58,9 @@ function render(countries: Country[]) {
 
     col.innerHTML = `
       <div class="card h-100 country-card cursor-pointer">
-        <img src="${c.flags.svg}" class="card-img-top" style="height:160px;object-fit:cover;" alt="${c.name.common} flag">
+        <img src="${c.flags?.svg || 'https://flagcdn.com/w320/xx.svg'}" class="card-img-top" style="height:160px;object-fit:cover;" alt="${c.name?.common || 'Flag'}">
         <div class="card-body">
-          <h5 class="card-title fw-bold">${c.name.common}</h5>
+          <h5 class="card-title fw-bold">${c.name?.common || "Unknown Country"}</h5>
           <p class="mb-1"><strong>Population:</strong> ${c.population.toLocaleString()}</p>
           <p class="mb-1"><strong>Region:</strong> ${c.region}</p>
           <p class="mb-0"><strong>Capital:</strong> ${c.capital?.[0] || "N/A"}</p>
@@ -78,7 +78,7 @@ function showDetail(country: Country) {
   $.detailName.textContent = country.name.common;
 const nativeObj = country.name.nativeName;
 const nativeEntry = nativeObj ? Object.values(nativeObj)[0] : null;
-  $.nativeName.textContent = nativeEntry?.common || country.name.common;
+  $.nativeName.textContent = nativeEntry?.common || country.name?.common || "N/A";
 
   $.population.textContent = country.population.toLocaleString();
   $.region.textContent = country.region;
@@ -110,19 +110,17 @@ const nativeEntry = nativeObj ? Object.values(nativeObj)[0] : null;
       }
     });
   } else {
-    $.borders.innerHTML = '<span class="text-muted">None</span>';
+    $.borders.innerHTML = "None";
   }
 
   $.home.classList.add("d-none");
   $.detail.classList.remove("d-none");
 }
 // BACK BUTTON
-if ($.backBtn){
 $.backBtn.onclick = () => {
-  $.detail.classList.add("d-none");
-  $.home.classList.remove("d-none");
+$.detail.classList.add("d-none");
+$.home.classList.remove("d-none");
 };
-}
 // SEARCH
 $.search.oninput = () => {
   const term = $.search.value.toLowerCase().trim();
