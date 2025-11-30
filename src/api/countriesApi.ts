@@ -6,12 +6,13 @@ export async function getAllCountries(): Promise<Country[]> {
       "https://restcountries.com/v3.1/all?fields=name,flags,population,region,capital,subregion,tld,currencies,languages,borders,cca3",
       {
         headers: {
-          "User-Agent": "MyRESTCountriesApp/1.0",
+          "User-Agent": "RESTCountriesApp/1.0 (github.com/gollamudisindhura1)",
+          "Accept": "application/json",
         },
       }
     );
 
-    if (!res.ok) throw new Error("API error");
+    if (!res.ok) throw new Error("API error" + res.status);
 
     const data = await res.json();
     console.log("Live API loaded 250 countries");
@@ -29,7 +30,7 @@ export async function getAllCountries(): Promise<Country[]> {
       }
     } catch {}
 
-    // Show nice message if both fail
+    // Show  message if both fail
     const grid = document.getElementById("countries-grid");
     if (grid) {
       grid.innerHTML = `<div class="col-12 text-center py-5 text-muted">
