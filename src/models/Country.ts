@@ -7,6 +7,7 @@ export interface Country {
   flags: {
     svg: string;
     png?: string;
+    alt?: string;
   };
   capital?: string[];
   region: string;

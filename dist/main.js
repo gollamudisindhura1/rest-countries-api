@@ -51,11 +51,11 @@ function render(countries) {
         col.className = "col";
         col.innerHTML = `
       <div class="card h-100 country-card cursor-pointer">
-        <img src="${c.flags.svg}" class="card-img-top" style="height:160px;object-fit:cover;" alt="${c.name?.common || "Country"} flag">
+        <img src="${c.flags.svg}" class="card-img-top" style="height:160px;object-fit:cover;" alt="${c.name.common} flag">
         <div class="card-body">
-          <h5 class="card-title fw-bold">${c.name?.common || "Unknown Country"}</h5>
+          <h5 class="card-title fw-bold">${c.name.common}</h5>
           <p class="mb-1"><strong>Population:</strong> ${c.population.toLocaleString()}</p>
-          <p class="mb-1"><strong>Region:</strong> ${c.region || "N/A"}</p>
+          <p class="mb-1"><strong>Region:</strong> ${c.region}</p>
           <p class="mb-0"><strong>Capital:</strong> ${c.capital?.[0] || "N/A"}</p>
         </div>
       </div>
@@ -67,12 +67,12 @@ function render(countries) {
 // SHOW DETAIL
 function showDetail(country) {
     $.detailFlag.src = country.flags.svg;
-    $.detailName.textContent = country.name?.common || "Unknown";
-    const nativeEntry = country.name.nativeName ? Object.values(country.name.nativeName)[0] : null;
-    undefined;
-    $.nativeName.textContent = nativeEntry?.common || country.name?.common || "N/A";
+    $.detailName.textContent = country.name.common;
+    const nativeObj = country.name.nativeName;
+    const nativeEntry = nativeObj ? Object.values(nativeObj)[0] : null;
+    $.nativeName.textContent = nativeEntry?.common || country.name.common;
     $.population.textContent = country.population.toLocaleString();
-    $.region.textContent = country.region || "N/A";
+    $.region.textContent = country.region;
     $.subregion.textContent = country.subregion || "N/A";
     $.capital.textContent = country.capital?.[0] || "N/A";
     $.tld.textContent = country.tld?.join(", ") || "N/A";
@@ -85,10 +85,9 @@ function showDetail(country) {
         ? Object.values(country.languages).join(", ")
         : "N/A";
     // Borders
-    $.borders.innerHTML = "";
     if (country.borders && country.borders.length > 0) {
-        country.borders.forEach(code => {
-            const borderCountry = allCountries.find(c => c.cca3 === code);
+        country.borders.forEach((code) => {
+            const borderCountry = allCountries.find((c) => c.cca3 === code);
             if (borderCountry) {
                 const btn = document.createElement("button");
                 btn.className = "border-btn";

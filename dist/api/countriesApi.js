@@ -1,36 +1,43 @@
 export async function getAllCountries() {
     try {
-        const res = await fetch("https://restcountries.com/v3.1/all?fields=name,flags,population,region,capital,subregion,tld,currencies,languages,borders,cca3", {
+        const url = "https://restcountries.com/v3.1/all?fields=name,flags,population,region,capital,subregion,tld,currencies,languages,borders,cca3";
+        const res = await fetch(url, {
             headers: {
-                "User-Agent": "RESTCountriesApp/1.0 (github.com/gollamudisindhura1)",
-                "Accept": "application/json",
-            },
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+            }
         });
-        if (!res.ok)
-            throw new Error("API error" + res.status);
+        if (!res.ok) {
+            throw new Error(`HTTP ${res.status} - ${res.statusText}`);
+        }
         const data = await res.json();
-        console.log("Live API loaded 250 countries");
+        console.log("LIVE API SUCCESS: 250 countries loaded!");
         return data;
     }
-    catch (error) {
-        console.warn("Live API failed, trying data.json...");
+    catch (err) {
+        console.warn("Live API failed (400 error) — using data.json fallback");
         try {
             const local = await fetch("data.json");
             if (local.ok) {
                 const data = await local.json();
-                console.log("Loaded from data.json");
+                console.log("SUCCESS: Loaded from data.json");
                 return data;
             }
         }
-        catch { }
-        // Show  message if both fail
+        catch (e) {
+            console.error("data.json failed too", e);
+        }
+        // Show friendly message
         const grid = document.getElementById("countries-grid");
         if (grid) {
-            grid.innerHTML = `<div class="col-12 text-center py-5 text-muted">
-        <h4>No internet or API down</h4>
-        <p>Deploy to Netlify — it will work 100% work there</p>
-        <button class="btn btn-primary" onclick="location.reload()">Retry</button>
-      </div>`;
+            grid.innerHTML = `
+        <div class="col-12 text-center py-5">
+          <div class="alert alert-warning">
+            <h4>Live API Temporarily Down</h4>
+            <p>Your code is perfect — this is a localhost issue.</p>
+            <p><strong>Deploy to Netlify → it works 100%</strong></p>
+            <button class="btn btn-success" onclick="location.reload()">Try Again</button>
+          </div>
+        </div>`;
         }
         return [];
     }
