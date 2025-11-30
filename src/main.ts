@@ -1,16 +1,16 @@
 import { getAllCountries } from "./api/countriesApi.js";
 import type { Country } from "./models/Country.js";
-
 const $ = {
   search: document.getElementById("search") as HTMLInputElement,
   grid: document.getElementById("countries-grid") as HTMLElement,
   home: document.getElementById("home-page") as HTMLElement,
   detail: document.getElementById("detail-page") as HTMLElement,
-  backBtn: document.querySelector(".back-btn") as HTMLButtonElement,
-  themeToggle: document.querySelector(".theme-toggle-area") as HTMLElement,
+  backBtn: document.querySelector(".back-btn") as HTMLButtonElement | null,
+  themeToggle: document.getElementById("theme-toggle") as HTMLElement,
   themeIcon: document.getElementById("toggle-icon") as HTMLElement,
   modeText: document.querySelector(".mode-text") as HTMLElement,
   regionFilter: document.getElementById("region-filter") as HTMLSelectElement,
+
   detailFlag: document.getElementById("detail-flag") as HTMLImageElement,
   detailName: document.getElementById("detail-name") as HTMLElement,
   nativeName: document.getElementById("native-name") as HTMLElement,
@@ -27,84 +27,86 @@ const $ = {
 let allCountries: Country[] = [];
 
 // THEME
+if ($.themeToggle) {
 $.themeToggle.addEventListener("click", () => {
   document.body.classList.toggle("dark");
   const isDark = document.body.classList.contains("dark");
-  $.themeIcon.className = isDark ? "fa-solid fa-sun" : "fa-solid fa-moon";
-  $.modeText.textContent = isDark ? "Light Mode" : "Dark Mode";
-  localStorage.setItem("theme", isDark ? "dark" : "light");
-});
+  if ($.themeIcon) $.themeIcon.className = isDark ? "fa-solid fa-sun" : "fa-solid fa-moon";
+    if ($.modeText) $.modeText.textContent = isDark ? "Light Mode" : "Dark Mode";
 
-if (
-  localStorage.getItem("theme") === "dark" ||
-  (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches)
-) {
-  document.body.classList.add("dark");
-  $.themeIcon.className = "fa-solid fa-sun";
-  $.modeText.textContent = "Light Mode";
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  });
 }
 
-// RENDER CARDS
+// Apply saved theme
+
+const savedTheme = localStorage.getItem("theme");
+const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+  document.body.classList.add("dark");
+  if ($.themeIcon) $.themeIcon.className = "fa-solid fa-sun";
+  if ($.modeText) $.modeText.textContent = "Light Mode";
+}
+
+// RENDER COUNTRIES
 function render(countries: Country[]) {
   $.grid.innerHTML = "";
   countries.forEach((c) => {
     const col = document.createElement("div");
     col.className = "col";
 
-    //  c.name.common is defined in real API
-    const name = c.name?.common ?? "Unknown";
-
     col.innerHTML = `
       <div class="card h-100 country-card cursor-pointer">
-        <img src="${c.flags.svg}" class="card-img-top" style="height:160px;object-fit:cover;" alt="${name}">
+        <img src="${c.flags.svg}" class="card-img-top" style="height:160px;object-fit:cover;" alt="${c.name.common}">
         <div class="card-body">
-          <h5 class="card-title fw-bold">${name}</h5>
+          <h5 class="card-title fw-bold">${c.name.common}</h5>
           <p class="mb-1"><strong>Population:</strong> ${c.population.toLocaleString()}</p>
           <p class="mb-1"><strong>Region:</strong> ${c.region}</p>
-          <p class="mb-0"><strong>Capital:</strong> ${c.capital?.[0] ?? "N/A"}</p>
+          <p class="mb-0"><strong>Capital:</strong> ${c.capital?.[0]||"N/A"}</p>
         </div>
       </div>
     `;
+
     col.onclick = () => showDetail(c);
     $.grid.appendChild(col);
   });
 }
 
-// DETAIL PAGE
-function showDetail(c: Country) {
-  $.detailFlag.src = c.flags.svg;
+// SHOW DETAIL
+function showDetail(country: Country) {
+  $.detailFlag.src = country.flags.svg;
+  $.detailName.textContent = country.name.common;
 
-  const name = c.name?.common ?? "Unknown";
-  const native = c.name?.nativeName
-    ? Object.values(c.name.nativeName)[0]?.common ?? name
-    : name;
+  // Native name
+  const nativeEntry = Object.values(country.name.nativeName || {})[0];
+  $.nativeName.textContent = nativeEntry?.common || country.name.common;
 
-  $.detailName.textContent = name;
-  $.nativeName.textContent = native;
-  $.population.textContent = c.population.toLocaleString();
-  $.region.textContent = c.region;
-  $.subregion.textContent = c.subregion ?? "N/A";
-  $.capital.textContent = c.capital?.[0] ?? "N/A";
-  $.tld.textContent = c.tld?.join(", ") ?? "N/A";
+  $.population.textContent = country.population.toLocaleString();
+  $.region.textContent = country.region;
+  $.subregion.textContent = country.subregion || "N/A";
+  $.capital.textContent = country.capital?.[0] || "N/A";
+  $.tld.textContent = country.tld?.join(", ") || "N/A";
 
-  $.currencies.textContent = c.currencies
-    ? Object.values(c.currencies)
-        .map((cur: any) => cur.name)
-        .join(", ")
+  // Currencies
+  const currencyNames = country.currencies
+    ? Object.values(country.currencies).map(c => c.name).join(", ")
     : "N/A";
+  $.currencies.textContent = currencyNames;
 
-  $.languages.textContent = c.languages
-    ? Object.values(c.languages).join(", ")
+  // Languages
+  $.languages.textContent = country.languages
+    ? Object.values(country.languages).join(", ")
     : "N/A";
-
+  // Borders
   $.borders.innerHTML = "";
-  if (c.borders?.length) {
-    c.borders.forEach((code) => {
-      const borderCountry = allCountries.find((x) => x.cca3 === code);
+  if (country.borders && country.borders.length > 0) {
+    country.borders.forEach(code => {
+      const borderCountry = allCountries.find(c => c.cca3 === code);
       if (borderCountry) {
         const btn = document.createElement("button");
-        btn.className = "border-btn me-2 mb-2";
-        btn.textContent = borderCountry.name?.common ?? "Unknown";
+        btn.className = "border-btn";
+        btn.textContent = borderCountry.name.common;
         btn.onclick = () => showDetail(borderCountry);
         $.borders.appendChild(btn);
       }
@@ -116,31 +118,34 @@ function showDetail(c: Country) {
   $.home.classList.add("d-none");
   $.detail.classList.remove("d-none");
 }
-
+// BACK BUTTON
+if ($.backBtn){
 $.backBtn.onclick = () => {
   $.detail.classList.add("d-none");
   $.home.classList.remove("d-none");
 };
-
+}
 // SEARCH
 $.search.oninput = () => {
   const term = $.search.value.toLowerCase().trim();
-  const filtered = allCountries.filter((c) =>
-    (c.name?.common ?? "").toLowerCase().includes(term)
-  );
+  const filtered = allCountries.filter(c => {
+    const common = c.name.common.toLowerCase();
+    const natives = c.name.nativeName
+      ? Object.values(c.name.nativeName).map(n => n.common.toLowerCase())
+      : [];
+    return common.includes(term) || natives.some(n => n.includes(term));
+  });
   render(filtered);
 };
 
 // REGION FILTER
 $.regionFilter.onchange = () => {
   const region = $.regionFilter.value;
-  const filtered = region
-    ? allCountries.filter((c) => c.region === region)
-    : allCountries;
+  const filtered = region ? allCountries.filter(c => c.region === region) : allCountries;
   render(filtered);
 };
 
-// START APP
+// START
 async function init() {
   try {
     allCountries = await getAllCountries();
@@ -149,9 +154,13 @@ async function init() {
       return;
     }
     render(allCountries);
-  } catch (err) {
+  } catch {
     $.grid.innerHTML = '<div class="col-12 text-center py-5 text-danger">Failed to load countries</div>';
   }
 }
 
-init();
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}

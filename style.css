@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap');
-
+:root {
+  --bs-body-bg: white;
+}
+body.dark {
+  --bs-body-bg: hsl(209, 23%, 22%);
+}
 *,
 *::before,
 *::after {
@@ -10,6 +15,8 @@ body {
     min-height: 100vh;
     transition: background-color 0.3s color 0.3s;
     margin: 0;
+    background-color: hsl(0, 0%, 98%);
+    color: hsl(200, 15%, 8%);
 }
 /* DARK MODE  */
 body.dark {
@@ -41,7 +48,7 @@ body.dark .text-dark {
 
 body.dark .form-control::placeholder,
 body.dark .form-select{
-  color: rgba(255, 255, 255, 0.7) !important;
+  color: rgba(255, 255, 255, 0.6) !important;
 }
 /* COUNTRY CARD STYLING */
 .country-card{
@@ -56,6 +63,7 @@ body.dark .form-select{
 }
 body.dark .country-card {
   background-color: hsl(209, 23%, 22%);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
 }
 .country-card:hover{
     transform: translateY(-10px);

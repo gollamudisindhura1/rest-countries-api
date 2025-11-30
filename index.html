@@ -16,6 +16,9 @@
 
   <!--CSS -->
   <link rel="stylesheet" href="style.css" />
+  <style>
+  .cursor-pointer { cursor: pointer; }
+</style>
 </head>
 
 <body class="bg-light text-dark">
@@ -23,9 +26,9 @@
    <!-- NAVIGATION -->
 
    <nav class = "navbar shadow-sm bg-white">
-    <div class = "container-fluid px-4 px-lg-5 py-3">
+    <div class = "container-fluid px-4 px-lg-5 py-3 d-flex justify-content-between align-items-center">
       <h1 class = "h4 fw-bold mb-0">Where in the world?</h1>
-      <div class ="theme-toggle-area d-flex align-items-center gap-2 cursor-pointer">
+      <div class ="theme-toggle-area d-flex align-items-center gap-2 cursor-pointer" id="theme-toggle">
         <i class ="fa-solid fa-moon" id ="toggle-icon"></i>
         <span class ="fw-semibold mode-text">Dark Mode</span>
       </div>
@@ -63,14 +66,14 @@
   </div>
      <!-- PAGE DETAILS -->
       <div class="container-fluid px-4 px-lg-5 py-5 d-none" id="detail-page">
-    <button class="btn btn-white shadow-sm px-4 py-2 mb-5 back-btn">
+    <button class="btn btn-light shadow-sm px-4 py-2 mb-5 back-btn">
       <i class="fa-solid fa-arrow-left me-2"></i> Back
     </button>
 
     <div class="row g-5 align-items-center">
       <!-- FLAG -->
       <div class="col-lg-6">
-        <img id="detail-flag" class="img-fluid rounded shadow" alt="Country flag">
+        <img id="detail-flag" class="img-fluid rounded shadow" alt="Country flag"/>
       </div>
 
       <!-- COUNTRY INFO -->
@@ -94,7 +97,7 @@
 
         <div class="mt-4">
           <strong>Border Countries:</strong>
-          <div id="borders" class="d-inline-block mt-2"></div>
+          <div id="borders" class="d-inline-flex flex-wrap gap-2 mt-2"></div>
         </div>
       </div>
     </div>
