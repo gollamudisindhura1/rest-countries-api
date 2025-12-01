@@ -20,6 +20,7 @@ This is a interactive country explorer built with TypeScript, Bootstrap and the 
 
 
 ## Live Demo
+https://restapicountry.netlify.app/
 
 ## Technologies Used
 - TypeScript - Type-safe JavaScript
